@@ -4,9 +4,22 @@ import decipher
 
 cypher_list = ['Atbash Cypher', 'Ceaser Cipher']
 
+def dec_wrap(func, *arg, **kwargs):
+    """
+    A wrapper to check for value errors. I don't know if this is a good design choice, but it allows me to 
+    1. decouple error decipher error handling from streamlit error reporting
+    2. avoid repeating the same try-except four times
+
+    """
+    try:
+        return func(*arg, **kwargs)
+    except ValueError:
+        st.warning("Make sure your secret message only includes numbers, letters, and punctuation!")
+
+
 def run():
     """
-    Main run method
+    Main run method.
 
     """
     st.header("🔑 Decipher")
@@ -25,14 +38,15 @@ def run():
 
     if decrypt:
         if dec_cypher == 'Atbash Cypher':
-            output = decipher.dec_atbash(str_in) 
-            st.write(f"Deciphered text: {output}") 
+                output = dec_wrap(decipher.dec_atbash, str_in) 
+                st.write(f"Deciphered text: {output}") 
+
         elif dec_cypher == "Ceaser Cipher":
-            output = decipher.dec_ceaser(str_in, 26 - rot)
-            st.write(f"Deciphered text: {output}")
+                output = dec_wrap(decipher.dec_ceaser, str_in, 26 - rot)
+                st.write(f"Deciphered text: {output}")
 
         
-    st.header("🔒 Encrypt!")
+    st.header("🔒 Encrypt")
 
     st.write("Encrypt any string using a Atbash or Ceasarian cipher!")
 
@@ -52,11 +66,14 @@ def run():
 
     if encrypt:
         if enc_cypher == 'Atbash Cypher':
-            output = decipher.dec_atbash(str_in)
-            st.write(f"Encrypted text: {output}")
+                output = dec_wrap(decipher.dec_atbash, str_in)
+                st.write(f"Encrypted text: {output}")
+
         elif enc_cypher == "Ceaser Cipher":
-            output = decipher.dec_ceaser(str_in, rot) 
-            st.write(f"Encrypted text: {output}")
+
+                output = dec_wrap(decipher.dec_ceaser, str_in, rot) 
+                st.write(f"Encrypted text: {output}")
+
 
 
 
