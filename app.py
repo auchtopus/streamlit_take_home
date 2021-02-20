@@ -1,35 +1,62 @@
 import streamlit as st
 import decipher
 
+
+cypher_list = ['Atbash Cypher', 'Ceaser Cipher']
+
 def run():
     """
     Main run method
 
     """
-    st.header("Decipher")
+    st.header("🔑 Decipher")
 
     st.write("Decipher any string using a Atbash or Ceasarian cipher!")
 
     str_in = st.text_input("String to decipher", "Ifmmp!")
 
-    cypher = st.selectbox("Cypher to use", ['Atbash Cypher', 'Ceaser Cipher'])
+    dec_cypher = st.selectbox("Cypher to use", cypher_list, key= "dec")
 
-    if cypher == 'Ceaser Cipher':
-        rot = st.slider("Cipher Rotation", 0, 26, 13, 1)
+    if dec_cypher == 'Ceaser Cipher':
+        st.write("The rotation refers to the rotation used to encrypt. Thus, if you select 3, you are trying to undo a rotation of 3, which means you want to decrypt 'd' into 'a'")
+        rot = st.slider("Cipher Rotation", 0, 26, 13, 1, key='dec')
 
-    activate = st.button("Decipher!")
+    decrypt = st.button("Decipher!")
 
-    if activate:
-        if cypher == 'Atbash Cypher':
-            output = decipher.dec_atbash(str_in)
-            st.write(f"Deciphered text: {output}")
-        elif cypher == "Ceaser Cipher":
-            output = decipher.dec_ceaser(str_in, rot)
+    if decrypt:
+        if dec_cypher == 'Atbash Cypher':
+            output = decipher.dec_atbash(str_in) 
+            st.write(f"Deciphered text: {output}") 
+        elif dec_cypher == "Ceaser Cipher":
+            output = decipher.dec_ceaser(str_in, 26 - rot)
             st.write(f"Deciphered text: {output}")
 
         
+    st.header("🔒 Encrypt!")
 
+    st.write("Encrypt any string using a Atbash or Ceasarian cipher!")
 
+    str_in = st.text_input("String to encrypt", "Hello!")
+
+    enc_cypher = st.selectbox("Cypher to use", cypher_list, key = "enc")
+
+    if enc_cypher == "Atbash Cipher":
+        st.write("The Atbash Cipher maps the alphabet to it's reverse, so 'a' becomes 'z' and vice versa. This implementation preserves case in its mapping, does not map numbers, spaces, or punctuation, and will not map any non-Ascii character.")
+
+    if enc_cypher == 'Ceaser Cipher':
+        st.write("The Ceaser Cipher maps the alphabet to a 'rotation' of the alphabet. In this way, with a Ceaser cipher with rotation of 3 would map 'a' to 'd'. This implementation preserves case, does not map numbers, spaces, or punctuation, and will not map any non-Ascii character. ")
+
+        rot = st.slider("Cipher Rotation", 0, 26, 13, 1, key='enc')
+
+    encrypt = st.button("Encrypt!")
+
+    if encrypt:
+        if enc_cypher == 'Atbash Cypher':
+            output = decipher.dec_atbash(str_in)
+            st.write(f"Encrypted text: {output}")
+        elif enc_cypher == "Ceaser Cipher":
+            output = decipher.dec_ceaser(str_in, rot) 
+            st.write(f"Encrypted text: {output}")
 
 
 
