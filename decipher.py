@@ -40,7 +40,7 @@ def dec_atbash(str_in: str)->str:
     
     return ''.join(new_str)
 
-def dec_ceaser(str_in:str, rot: int)->str:
+def dec_ceasar(str_in:str, rot: int)->str:
     """
     Performs a ceasaraian rotation, adding rot to every char's ascii then taking (x - 68) (mod 26) + 68. 
     It applies the same rotation constant for uppercase and lowercase results. Does not rotate punctuation. 
@@ -87,7 +87,7 @@ def _find_ceasar_rot(str_in: str)->None:
     """
 
     for rot in range(26):
-        str_res = dec_ceaser(str_in, rot)
+        str_res = dec_ceasar(str_in, rot)
         print(f"Rotation {rot}: {str_res}")
 
 
